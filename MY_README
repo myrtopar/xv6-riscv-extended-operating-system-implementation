@@ -1,0 +1,27 @@
+Μυρτώ Παράφορου
+ΑΜ: 1115202000261
+
+Priority Scheduler Implementation
+For the first part of the assignment, a priority property has been added to the struct proc declared in kernel/proc.h. The default priority 
+is set to 10 and initialized in the allocproc() function. The scheduler has been modified to follow a priority-based policy.
+The scheduler iterates through all processes in the process table, identifying those with the status RUNNABLE and the highest priority. 
+These processes are then placed in an array of pointers to processes. At the end of the iteration, the array contains all processes with the 
+same highest priority, and they are executed in a round-robin order.
+Additionally, the setpriority syscall has been implemented in the kernel/proc.c file, allowing for dynamic changes to the priority of the process
+is running on the cpu.
+
+Process Information System Call (getpinfo)
+For the second part of the assignment, the getpinfo syscall has been created. This syscall takes an argument of a struct pstat*. The struct pstat 
+is declared in the header file kernel/pstat.h and is included in all necessary files. The struct contains crucial information about a process, 
+including pid, ppid, priority, name, status, and size.
+
+The getpinfo syscall acts as a wrapper function. When called, it internally invokes the procinfo method, which takes a uint64 address representing 
+the user-space address of the struct passed to getpinfo. The procinfo function obtains this address through the use of argaddr on the 0-th argument.
+Internally, procinfo creates a local struct pstat variable and copies all the relevant information from the process table. Information from any 
+process not in the UNUSED state is retained. Using copyout, the kernel copies all this information from the kernel address to the user address addr
+(argument of procinfo). After this procedure, the user struct pstat has all the necessary information for the implementation of the user program
+ps. When ps calls getpinfo, it prints the information of each process, providing valuable insights into the system's current process state.
+Note: the process "init" does not have a parent process and a ppid. In the program ps, when printing the information of init the ppid value is -1
+representing the absence of a parent process id.
+
+The code passes all the tests from usertests program.
