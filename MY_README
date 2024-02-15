@@ -1,6 +1,3 @@
-Μυρτώ Παράφορου
-ΑΜ: 1115202000261
-
 Priority Scheduler Implementation
 For the first part of the assignment, a priority property has been added to the struct proc declared in kernel/proc.h. The default priority 
 is set to 10 and initialized in the allocproc() function. The scheduler has been modified to follow a priority-based policy.
